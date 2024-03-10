@@ -1,5 +1,5 @@
 chrome.action.onClicked.addListener((tab) => {
-    const url = tab.url; 
+    const url = tab.url;
     chrome.tabs.create({ url: "https://www.shacklefree.in" }, function (newTab) {
         chrome.tabs.onUpdated.addListener(async function onTabUpdated(tabId, changeInfo, tab) {
             if (tabId === newTab.id && changeInfo.status === 'complete') {
@@ -22,8 +22,13 @@ chrome.action.onClicked.addListener((tab) => {
 
 function simulateTyping(url) {
     const textField = document.getElementById('url');
+
+    if(!textField) {
+        throw new Error("Textfeld nicht gefunden !");
+    }
+
     textField.focus()
-    
+
     url.split('').forEach(char => {
         const keyDownEvent = new KeyboardEvent('keydown', { 'key': char });
         textField.dispatchEvent(keyDownEvent);
@@ -39,9 +44,12 @@ function simulateTyping(url) {
 
 function clickReadButton() {
     const button = document.querySelector('button[type="submit"].chakra-button');
-    if (button) {
-      button.click();
+
+    if (!button) {
+        throw new Error("Button nicht gefunden !");
     }
+
+    button.click();
 }
 
 
